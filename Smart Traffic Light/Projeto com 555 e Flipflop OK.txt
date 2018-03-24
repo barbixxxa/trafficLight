@@ -1,0 +1,84 @@
+//defino as portas para os componentes
+#define LEDVERDE1 0
+#define LEDVERMELHO1 1
+#define LEDVERDE2 2
+#define LEDVERMELHO2 3
+#define FLIPFLOP7 7
+#define FLIPFLOP10 8
+#define FLIPFLOP15 9
+#define BOTAO 10
+#define CLEAR 13
+
+int ledVerde1, ledVerde2; //crio as flags dos leds
+
+void setup() {
+  // put your setup code here, to run once:
+
+  //defino o tipo de porta
+  pinMode(LEDVERDE1, OUTPUT);
+  pinMode(LEDVERMELHO1, OUTPUT);
+  pinMode(LEDVERDE2, OUTPUT);
+  pinMode(LEDVERMELHO2, OUTPUT);
+  pinMode(FLIPFLOP7, INPUT);
+  pinMode(FLIPFLOP10, INPUT);
+  pinMode(FLIPFLOP15, INPUT);
+  pinMode(BOTAO, INPUT);
+  pinMode(CLEAR, OUTPUT);
+
+  //Iniciar o sistema com leds acesos
+  delay(500); //marcos ordenou
+
+  //rua 1
+  digitalWrite(LEDVERDE1, HIGH); //inicia com o led aceso
+  ledVerde1 = 1;//seta a flag para 1
+  digitalWrite(LEDVERMELHO1, LOW);
+
+  //rua 2
+  digitalWrite(LEDVERDE2, LOW);
+  ledVerde2 = 0;
+  digitalWrite(LEDVERMELHO2, HIGH);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  digitalWrite(CLEAR, HIGH);//desabilita o clear
+
+  if (ledVerde1 == 1 && digitalRead(FLIPFLOP7)) {
+    //rua 1
+    digitalWrite(LEDVERDE1, LOW);
+    ledVerde1 = 0;
+    digitalWrite(LEDVERMELHO1, HIGH);
+    //rua 2
+    digitalWrite(LEDVERDE2, HIGH);
+    ledVerde2 = 1;
+    digitalWrite(LEDVERMELHO2, LOW);
+    digitalWrite(CLEAR, LOW);
+  } else {
+    if (digitalRead(BOTAO) && ledVerde1 == 0) {
+      if (digitalRead(FLIPFLOP15)) {
+        //rua 1
+        digitalWrite(LEDVERDE1, HIGH);
+        ledVerde1 = 1;
+        digitalWrite(LEDVERMELHO1, LOW);
+        //rua 2
+        digitalWrite(LEDVERDE2, LOW);
+        ledVerde2 = 0;
+        digitalWrite(LEDVERMELHO2, HIGH);
+        digitalWrite(CLEAR, LOW);
+      }
+    } else {
+      if (ledVerde1 == 0 && digitalRead(FLIPFLOP10) && !digitalRead(BOTAO)) {
+        //rua 1
+        digitalWrite(LEDVERDE1, HIGH);
+        ledVerde1 = 1;
+        digitalWrite(LEDVERMELHO1, LOW);
+        //rua 2
+        digitalWrite(LEDVERDE2, LOW);
+        ledVerde2 = 0;
+        digitalWrite(LEDVERMELHO2, HIGH);
+        digitalWrite(CLEAR, LOW);
+      }
+    }
+  }
+}

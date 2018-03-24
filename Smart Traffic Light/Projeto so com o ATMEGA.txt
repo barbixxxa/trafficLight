@@ -1,0 +1,72 @@
+//defino as portas para os componentes
+#define LEDVERDE1 0
+#define LEDVERMELHO1 1
+#define LEDVERDE2 2
+#define LEDVERMELHO2 3
+#define BOTAO 10
+
+int ledVerde1, ledVerde2; //crio as flags dos leds
+
+void setup() {
+  // put your setup code here, to run once:
+
+  //defino o tipo de porta
+  pinMode(LEDVERDE1, OUTPUT);
+  pinMode(LEDVERMELHO1, OUTPUT);
+  pinMode(LEDVERDE2, OUTPUT);
+  pinMode(LEDVERMELHO2, OUTPUT);
+  pinMode(BOTAO, INPUT);
+
+  //Iniciar o sistema com leds acesos
+  delay(500); //marcos ordenou
+
+  //rua 1
+  digitalWrite(LEDVERDE1, HIGH); //inicia com o led aceso
+  ledVerde1 = 1;//seta a flag para 1
+  digitalWrite(LEDVERMELHO1, LOW);
+
+  //rua 2
+  digitalWrite(LEDVERDE2, LOW);
+  ledVerde2 = 0;
+  digitalWrite(LEDVERMELHO2, HIGH);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  if ((ledVerde1 == 1)) {//7segundos
+    delay(7000);
+    //rua 1
+    digitalWrite(LEDVERDE1, LOW);
+    ledVerde1 = 0;
+    digitalWrite(LEDVERMELHO1, HIGH);
+    //rua 2
+    digitalWrite(LEDVERDE2, HIGH);
+    ledVerde2 = 1;
+    digitalWrite(LEDVERMELHO2, LOW);
+  } else {
+    if (digitalRead(BOTAO) && ledVerde1 == 0) {
+      delay(15000);//15
+      //rua 1
+      digitalWrite(LEDVERDE1, HIGH);
+      ledVerde1 = 1;
+      digitalWrite(LEDVERMELHO1, LOW);
+      //rua 2
+      digitalWrite(LEDVERDE2, LOW);
+      ledVerde2 = 0;
+      digitalWrite(LEDVERMELHO2, HIGH);
+    } else {
+      if ((ledVerde1 == 0) && (!digitalRead(BOTAO))) {//10
+        delay(10000);
+        //rua 1
+        digitalWrite(LEDVERDE1, HIGH);
+        ledVerde1 = 1;
+        digitalWrite(LEDVERMELHO1, LOW);
+        //rua 2
+        digitalWrite(LEDVERDE2, LOW);
+        ledVerde2 = 0;
+        digitalWrite(LEDVERMELHO2, HIGH);
+      }
+    }
+  }
+}
